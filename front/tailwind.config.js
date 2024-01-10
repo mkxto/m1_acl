@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         mc: ['Minecraftia', 'sans-serif'],
+        tinybox: ['Tiny Box BlackBitA8', 'sans-serif'],
       },
     },
   },
