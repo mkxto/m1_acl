@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "back": "^0.1.0",
     "framer-motion": "^10.18.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vite-plugin-top-level-await": "^1.4.1",
+    "vite-plugin-wasm": "^3.3.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
