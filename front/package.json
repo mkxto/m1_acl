@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "back": "^0.1.0",
+    "belote_back": "^0.1.0",
     "framer-motion": "^10.18.0",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.2",
+    "sort-by": "^1.2.0",
     "vite-plugin-top-level-await": "^1.4.1",
     "vite-plugin-wasm": "^3.3.0"
   },
