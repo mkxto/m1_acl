@@ -19,22 +19,18 @@ extern "C" {
 
 #[wasm_bindgen]
 pub struct GameState {
-    game: game::Game<'static>,
+    game: game::Game,
     player: player::Player,
-    rules: &'static dyn Rule,
 }
 
 #[wasm_bindgen]
 impl GameState {
     #[wasm_bindgen(constructor)]
     pub fn new(username: String) -> Self {
-        let rules = rules_static();
-        let game = game::Game::new(&rules);
         let player = player::Player::new(username).unwrap();
         Self {
-            game,
+            game: game::Game::new(Box::new(rules_static())),
             player,
-            rules: &rules,
         }
     }
 
@@ -46,22 +42,42 @@ impl GameState {
     }
 
     #[wasm_bindgen]
-    pub fn pick(&mut self) -> Result<(), JsValue> {
-        self.player.pick_cards(&mut self.game).unwrap();
-        Ok(())
+    pub fn pick(&mut self) -> Result<(), String> {
+        match self.player.pick_cards(&mut self.game) {
+            Ok(_) => Ok(()),
+            Err(e) => Err(format!("{}", e)),
+        }
     }
 
     #[wasm_bindgen]
     pub fn get_score(&self) -> i32 {
         self.player.get_score()
     }
-}
 
-#[wasm_bindgen]
-pub fn play_whole_game(username: String) -> i32 {
-    let mut state = GameState::new(username);
-    for _ in 0..5 {
-        state.pick().unwrap();
+    #[wasm_bindgen]
+    pub fn get_last_score(&self) -> i32 {
+        self.game.get_last_turn_score()
     }
-    state.get_score()
+
+    #[wasm_bindgen]
+    pub fn get_remaining_turns(&self) -> u32 {
+        self.game.get_remaining_turns()
+    }
+
+    #[wasm_bindgen]
+    pub fn get_last_two_cards_id(&self) -> Vec<String> {
+        let hand = self.player.get_hand();
+        let card1 = hand[hand.len() - 1].get_id();
+        let card2 = hand[hand.len() - 2].get_id();
+        vec![card1, card2]
+    }
+
+    #[wasm_bindgen]
+    pub fn save_game(&mut self) {
+        use crate::saver::Savable;
+        log("Saving game...");
+        let mut saver = saver::WebLocalStorageSaver::default();
+        saver.save_score(self.player.get_name(), self.player.get_score());
+        log("Game saved from Rust");
+    }
 }

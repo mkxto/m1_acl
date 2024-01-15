@@ -129,8 +129,7 @@ mod tests {
 
     #[test]
     fn player_pick_cards() {
-        let rules = rules();
-        let mut game = Game::new(&rules);
+        let mut game = Game::new(Box::new(rules()));
         game.reset_deck();
         let mut player = Player::new("Player".to_string()).unwrap();
         assert_eq!(player.pick_cards(&mut game), Ok(0));

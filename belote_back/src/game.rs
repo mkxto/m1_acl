@@ -6,15 +6,15 @@ use crate::{
 
 const MAX_TURNS: u32 = 5;
 
-pub struct Game<'a> {
-    rules: &'a dyn Rule,
+pub struct Game {
+    rules: Box<dyn Rule>,
     deck: Vec<Card>,
     turn: u32,
     last_turn_score: i32,
 }
 
-impl<'a> Game<'a> {
-    pub fn new(rules: &'a dyn Rule) -> Game<'a> {
+impl Game {
+    pub fn new(rules: Box<dyn Rule>) -> Game {
         Game {
             rules,
             deck: vec![],
@@ -37,7 +37,7 @@ impl<'a> Game<'a> {
     }
 
     pub fn get_rules(&self) -> &dyn Rule {
-        self.rules
+        self.rules.as_ref()
     }
 
     pub fn reset_deck(&mut self) {
@@ -83,20 +83,20 @@ impl<'a> Game<'a> {
 
 #[cfg(test)]
 mod tests {
+    use crate::rules::rules;
+
     use super::*;
 
     #[test]
     fn deck_size() {
-        let rules = crate::rules::rules();
-        let mut game = Game::new(&rules);
+        let mut game = Game::new(Box::new(rules()));
         game.reset_deck();
         assert_eq!(game.deck.len(), 32);
     }
 
     #[test]
     fn deck_shuffle() {
-        let rules = crate::rules::rules();
-        let mut game = Game::new(&rules);
+        let mut game = Game::new(Box::new(rules()));
         game.reset_deck();
         let deck = game.deck.clone();
         game.shuffle_deck();
