@@ -7,6 +7,14 @@ edition = "2021"
 
 [dependencies]
 wasm-bindgen = "0.2.89"
+js-sys = "0.3.67"
+rand = "0.8.5"
+
+[dependencies.web-sys]
+version = "0.3.67"
+features = [
+    "Storage"
+]
 
 [lib]
 crate-type = ["cdylib", "rlib"]

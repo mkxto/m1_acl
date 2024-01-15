@@ -1,11 +1,9 @@
+pub mod card;
+pub mod error;
+pub mod game;
+pub mod player;
+pub mod rule;
+pub mod rules;
+pub mod saver;
+
 use wasm_bindgen::prelude::*;
-
-#[wasm_bindgen]
-extern "C" {
-    pub fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet(name: &str) {
-    alert(&format!("connard {}!", name));
-}
