@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -7,11 +9,14 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        mc: ['Minecraftia', 'sans-serif'],
+        sans: ['Minecraftia',  ...defaultTheme.fontFamily.sans],
         tinybox: ['Tiny Box BlackBitA8', 'sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // ...
+    require('@tailwindcss/forms'),
+  ],
 }
 
