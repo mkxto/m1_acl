@@ -15,6 +15,14 @@ pub fn rules() -> impl Rule {
     DifferentValueColor::new(Some(same_value_different_color))
 }
 
+/// ## A function to create the rules of the game with a static lifetime.
+pub fn rules_static() -> impl Rule + 'static {
+    let same_value_color: SameValueColor = SameValueColor::new(None::<SameValueColor>);
+    let same_value_different_color: SameValueDifferentColor =
+        SameValueDifferentColor::new(Some(same_value_color));
+    DifferentValueColor::new(Some(same_value_different_color))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
